@@ -1,6 +1,6 @@
 # tsumiki-reddit.js
-A simple wrapper for fetching information from reddit posts. Excellent for Discord Bots! \
-Mainly coded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript. \
+A simple wrapper NPM package for fetching information from reddit posts. Excellent for Discord Bots! \
+Mainly recoded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript. \
 Perfect for Pagination, since you can adjust how many results you get back with `amount` property!
 
 
