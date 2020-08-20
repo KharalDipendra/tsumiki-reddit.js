@@ -125,7 +125,7 @@ redditFetch({
 ```
 
 ## Convert reddit date to a normal date format
-`<post>.created_utc` is displayed in Epoch time. You want to use `<post>.created_utc` over `<post.created>`. \
+`<post>.created_utc` is displayed in Epoch time. You want to use `<post>.created_utc` over `<post>.created`. \
 While you can still use `<post>.created`, it is preferred to use the one converted to UTC to get the correct time. \
 I highly reccomend using [moment](https://www.npmjs.com/package/moment) NPM package to convert it.
 
