@@ -11,6 +11,7 @@ Perfect for Pagination, since you can adjust how many results you get back with 
 - [Dependencies](#dependencies)
 - [Options](#options)
 - [Hint and Tips](#hint-and-tips)
+- [Example on Pagination](#example-on-pagination)
 - [Usage and Example](#usage-and-example)
 - [Example for a Discord Bot](#example-for-a-discord-bot)
 - [Convert reddit date](#convert-reddit-date-to-a-normal-date-format)
@@ -64,10 +65,44 @@ redditFetch({
     amount: 1,
 
 }).then(post => {
-    console.log(post);
+
+/* Checking if the subreddit exists and isn't banned. */
+if(post == null){
+   return console.log(`The subreddit name might have been spelled incorrectly or it was banned.`)
+}
+
+/* Checking if there id any fetchable posts */
+if(post == 0){
+   return console.log(`Could not find any posts to fetch from that subreddit! Try another one!`)
+}
+/* Console logs the object */
+console.log(post);
+
 });
 ```
 Returns a promise that resolves to a JSON object (`Promise<object>`).
+
+## Example on Pagination
+```javascript
+const redditFetch = require('tsumiki-reddit.js');
+
+redditFetch({
+
+    subreddit: 'Pokemon',
+    type: `top`,
+    sort: 'all',
+    allowNSFW: true,
+    allowModPost: true,
+    allowCrossPost: true,
+    allowPosts: false,
+    amount: 3,
+
+}).then(post => {
+    console.log(post[0].data);
+    console.log(post[1].data);
+    console.log(post[2].data);
+});
+```
 
 
 ## Example for a Discord bot
@@ -163,6 +198,8 @@ var Date = moment.unix(post.created_utc).format('DD.MM.YYYY')
      
      /* Send the embed in chat */
      return <message>.channel.send(embed)
+     
+     /* See "Example output for "post" " for all the properties. Or console.log(post) to get all of them in console! */
 });
 ```
 
