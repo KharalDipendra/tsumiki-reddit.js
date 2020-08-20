@@ -1,4 +1,4 @@
-# reddit-fetch.js
+tsumiki-reddit.js
 A simple wrapper for fetching information from reddit posts. Execelent for Discord bots.
 
 [Reddit API Documentation](https://www.reddit.com/dev/api/)
