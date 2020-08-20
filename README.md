@@ -35,7 +35,7 @@ Perfect for Pagination, since you can adjust how many results you get back with 
 | allowModPost   | boolean?     |    whether or not the returned post can be distinguished as a mod post | false
 | allowCrossPost | boolean?  | whether or not the returned post can be a crosspost | false |
 | allowPosts | boolean?  | allow posts with no fetchable images (e.g videos, external links, posts) | false |
-| amount | number?  | the amount of objects to fetch (for easy pagination!) | 1 |
+| amount | number?  | the amount of objects to fetch (max: 100) | 1 |
 
 **Read more about the Reddit API documentation here:** \
 [Reddit API Documentation](https://www.reddit.com/dev/api/)
