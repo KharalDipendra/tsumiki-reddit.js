@@ -1,5 +1,5 @@
 # tsumiki-reddit.js
-A simple wrapper for fetching information from reddit posts. Execelent for Discord bots. \
+A simple wrapper for fetching information from reddit posts. Excellent for Discord bots. \
 Mainly coded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript.
 
 **Read more about the Reddit API documentation here:** \
