@@ -1,0 +1,58 @@
+{
+  "_from": "reddit-fetch.js",
+  "_id": "reddit-fetch.js@1.0.0",
+  "_inBundle": false,
+  "_integrity": "sha512-Kbg5qR10tZ0WatLAQjCwlc0rnrVmlaelilNhd0KtRKkc+P967gljwRF2XXJQzI1yQy2kSnYempSpr6xkoqfUew==",
+  "_location": "/reddit-fetch.js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "reddit-fetch.js",
+    "name": "reddit-fetch.js",
+    "escapedName": "reddit-fetch.js",
+    "rawSpec": "",
+    "saveSpec": null,
+    "fetchSpec": "latest"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "author": {
+    "name": "Electrocute4u"
+  },
+  "bugs": {
+    "url": "https://github.com/LilyAsFlora/reddit-fetch.js/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "node-fetch": "^2.6.0"
+  },
+  "deprecated": false,
+  "description": "A simple wrapper for fetching information from reddit posts. Execelent for Discord bots.",
+  "homepage": "https://github.com/LilyAsFlora/reddit-fetch.js#readme",
+  "keywords": [
+    "node-fetch",
+    "node",
+    "reddit",
+    "json",
+    "api",
+    "request",
+    "response",
+    "discord.js",
+    "js",
+    "reddit-fetch.js"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "name": "reddit-fetch.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LilyAsFlora/reddit-fetch.js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "1.0.0"
+}
