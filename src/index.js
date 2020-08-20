@@ -13,11 +13,12 @@ const nfetch = require('node-fetch');
  * @param {boolean?} [options.allowModPost] Whether or not the returned post can be distinguished as a moderator post.
  * @param {boolean?} [options.allowCrossPost] Whether or not the returned post can be a crosspost.
  * @param {boolean?} [options.allowPosts] Whether or not the returned post can be a Image and not a post without a Image output.
+ * @param {number?} [options.amount] The amount of objects to fetch. [Default: 1].
  *
  * @returns {Promise<object>} Promise that resolves to a JSON object value.
  */
 
-async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSFW, allowModPost, allowCrossPost, allowPosts }) {
+async function redditFetch({ subreddit, type = `top` , sort = 'all', allowNSFW, allowModPost, allowCrossPost, allowPosts, amount = 1 }) {
     return new Promise((resolve, reject) => {
 
     /* Check required argument */
@@ -45,8 +46,21 @@ async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSF
     
     if (allowPosts && typeof(allowPosts) !== 'boolean')
     return reject(new TypeError(`Expected type "boolean" but got "${typeof(allowPosts)}"`));
-    
 
+    if (amount && typeof(amount) !== 'number')
+    return reject(new TypeError(`Expected type "number" but got "${typeof(type)}"`));
+    
+    
+    /* Checking if amount is a number, if not, fallback to default value. */
+    if(isNaN(amount)){
+        amount = 1   
+    } else {
+        amount = amount
+    }
+    if(amount > 100){
+        amount = 100
+    }
+    
     /* Configuration & target URL */
     sort = sort.toLowerCase();
     type = type.toLowerCase();
@@ -92,10 +106,21 @@ async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSF
             return resolve(post);
         }
         
+        if(amount == 1){
+        
         /* Pick random post from array of found data */
         let randInt = Math.floor(Math.random() * found.length);
         post = found[randInt].data;
-        resolve(post);
+        return resolve(post);
+        }
+        
+        /* Slice the JSON down to the correct amount */
+        else {
+        post = found.slice(0, amount)
+        /* Returns the objects */
+        return resolve(post);
+        }
+
         });
     });
 };
