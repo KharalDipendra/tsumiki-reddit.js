@@ -57,7 +57,8 @@ async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSF
     // @ts-ignore
     nfetch(targetURL).then(res => res.json())
     .then(body => {
-        let post
+		
+		let post
         /* If not found */
         if (!body.data){
         post = null;
@@ -67,19 +68,25 @@ async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSF
         /* Array of found submissions */
         let found = body.data.children;
         
-        /* Apply options */
+		/* Apply options */
+		
+		/* Allow NSFW posts [default: false] */
         if (!allowNSFW)
         found = found.filter(p => !p.data.over_18);
 
+		/* Allow a MOD post [default: false] */
         if (!allowModPost)
         found = found.filter(p => !p.data.distinguished);
 
+		/* Allow Crossposts [default: false] */
         if (!allowCrossPost)
         found = found.filter(p => !p.data.crosspost_parent_list);
 
+		/* Allow all sort of posts (e.g videos, external links, no image posts etc) [default: false] */
         if (!allowPosts)
         found = found.filter(p => p.data.post_hint && p.data.post_hint !== "self" && p.data.post_hint !== "rich:video" && p.data.domain == "i.redd.it");
 
+		/* If nothing is found, return post as 0, will allow for easier catching. */
         if (!found.length){
             post = 0
             return resolve(post);
@@ -92,5 +99,5 @@ async function redditFetch({ subreddit, type = `top` , sort = 'random', allowNSF
         });
     });
 };
-
+/* Exports it*/
 module.exports = redditFetch;
