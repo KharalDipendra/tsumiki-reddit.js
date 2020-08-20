@@ -1,5 +1,5 @@
-# reddit-fetch
-A simple wrapper for fetching information from reddit posts.
+# reddit-fetch.js
+A simple wrapper for fetching information from reddit posts. Execelent for Discord bots.
 
 [Reddit API Documentation](https://www.reddit.com/dev/api/)
 
