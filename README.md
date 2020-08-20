@@ -2,8 +2,25 @@
 A simple wrapper for fetching information from reddit posts. Excellent for Discord bots. \
 Mainly coded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript.
 
-**Read more about the Reddit API documentation here:** \
-[Reddit API Documentation](https://www.reddit.com/dev/api/)
+
+## Table of contents
+<details>
+<summary>"Click to expand"</summary>
+ 
+- [Dependencies](#dependencies)
+- [Options](#options)
+- [Hint and Tips](#hint-and-tips)
+- [Usage and Example](#usage-and-example)
+- [Example for a Discord Bot](#example-for-a-discord-bot)
+- [Convert reddit date](#convert-reddit-date-to-a-normal-date-format)
+- [Example converting Epoch time with moment for a Discord Bot](#example-converting-epoch-time-with-moment-for-a-discord-bot)
+- [Example output for "post"](#example-output-for-post)
+
+</details>
+
+
+## Dependencies
+- `node-fetch` v2.6.0 ([LINK](https://www.npmjs.com/package/node-fetch))
 
 
 ## Options
@@ -17,11 +34,20 @@ Mainly coded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord 
 | allowModPost   | boolean?     |    whether or not the returned post can be distinguished as a mod post | false
 | allowCrossPost | boolean?  | whether or not the returned post can be a crosspost | false |
 | allowPosts | boolean?  | allow posts with no fetchable images (e.g videos, external links, posts) | false |
+| amount | number?  | the amount of objects to fetch (for easy pagination!) | 1 |
 
-## Dependencies
-- `node-fetch` v2.6.0 ([LINK](https://www.npmjs.com/package/node-fetch))
+**Read more about the Reddit API documentation here:** \
+[Reddit API Documentation](https://www.reddit.com/dev/api/)
 
-## Usage & Example
+## Hint and Tips
+- If you just want supported images for a Discord Embed, set `allowPosts` to `false`.
+- For Pagination, make sure to use `post[x].data` to access the data property. (x = index number)
+- Want to display all top posts in a subreddit? set `type` to `top` and `sort` to `all`.
+- If you want to allow users to use links (e.g https://reddit.com/r/subreddit), make sure to remove the link. \
+So only the subreddit name remains. Also make sure to not include r/ in subreddit name.
+
+
+## Usage and Example
 ```javascript
 const redditFetch = require('tsumiki-reddit.js');
 
@@ -34,12 +60,14 @@ redditFetch({
     allowModPost: true,
     allowCrossPost: true,
     allowPosts: false,
+    amount: 1,
 
 }).then(post => {
     console.log(post);
 });
 ```
 Returns a promise that resolves to a JSON object (`Promise<object>`).
+
 
 ## Example for a Discord bot
 ```javascript
@@ -55,6 +83,7 @@ redditFetch({
     allowModPost: true,
     allowCrossPost: true,
     allowPosts: false, /* This will allow video and external image posts to be pulled */
+    amount: 1,
 
 }).then(post => {
     
@@ -93,12 +122,14 @@ redditFetch({
      /* <message> can be changed out for whatever you defined message as (e.g msg, m, message etc) */
 });
 ```
-### Convert post.created_utc to a normal date format:
+
+## Convert reddit date to a normal date format
 `<post>.created_utc` is displayed in Epoch time. You want to use `<post>.created_utc` over `<post.created>`. \
 While you can still use `<post>.created`, it is preferred to use the one converted to UTC to get the correct time. \
 I highly reccomend using [moment](https://www.npmjs.com/package/moment) NPM package to convert it.
 
-### Example converting Epoch time with moment for a Discord Bot
+
+## Example converting Epoch time with moment for a Discord Bot
 ```javascript 
 const moment  = require("moment");
 const redditFetch = require('tsumiki-reddit.js');
@@ -113,6 +144,7 @@ redditFetch({
     allowModPost: true,
     allowCrossPost: true,
     allowPosts: false, /* This will allow video and external image posts to be pulled */
+    amount: 1,
 
 }).then(post => {
 
@@ -132,11 +164,12 @@ var Date = moment.unix(post.created_utc).format('DD.MM.YYYY')
      return <message>.channel.send(embed)
 });
 ```
-## Example output for <post>
-**Example 1:** [pastebin](https://pastebin.com/zHGku0BK) - This is an example output of one of the available posts if `allowPosts` is set to `true`. \
-This does not include the property `post_hint:` property, which means its automaticly sorted out if `allowPosts` is set to `false` \
-I personally just want fetchable images, so I usually have it set to false, since I want to be certain I get loadable images in Discord embed. \
-    
- **Example 2:** [pastebin](https://pastebin.com/NYy7kbmW) - This is an example output of one of the available posts if `allowPosts` is set to `true`. \
- This is the prefered way, since it only fetches posts with images that is part of `i.redd.it` domain and is fetchable for Discord Embeds. \
+
+## Example output for "post"
+**Example 1:** [pastebin](https://pastebin.com/zHGku0BK) - This is a example output for all possible posts, if `allowPosts` is set to `true`. \
+This does not include the property `post_hint` property, which means its automaticly sorted out if `allowPosts` is set to `false` \
+I personally just want images, so I usually have it set to false, since I want to be certain I get images that supports Discord embeds.
+
+**Example 2:** [pastebin](https://pastebin.com/NYy7kbmW) - This is a example output if `allowPosts` is set to `true`. \
+This is the prefered way, since it only fetches posts with images that is part of `i.redd.it` domain and is fetchable for Discord Embeds. \
 
