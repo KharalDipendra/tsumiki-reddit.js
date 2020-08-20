@@ -1,0 +1,13 @@
+# Editor settings
+jsconfig.json
+
+# Packages
+node_modules/
+
+# GitHub files
+.gitignore
+.github/
+_config.yml
+
+# ESLint configuration file
+.eslintrc.json

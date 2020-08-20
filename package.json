@@ -1,5 +1,5 @@
 {
-  "name": "reddit-fetch.js",
+  "name": "tsumiki-reddit.js",
   "version": "1.0.0",
   "description": "A simple wrapper for fetching information from reddit posts. Execelent for Discord bots.",
   "main": "src/index.js",
@@ -16,7 +16,7 @@
     "response",
     "discord.js",
     "js",
-    "reddit-fetch.js"
+    "tsumiki-reddit.js"
   ],
   "author": {
     "name": "Electrocute4u"
@@ -25,8 +25,8 @@
   "dependencies": {
     "node-fetch": "^2.6.0"
   },
-  "homepage": "https://github.com/Electrocute4u/reddit-fetch.js#readme",
+  "homepage": "https://github.com/Electrocute4u/tsumiki-reddit.js#readme",
   "bugs": {
-    "url": "https://github.com/Electrocute4u/reddit-fetch.js/issues"
+    "url": "https://github.com/Electrocute4u/tsumiki-reddit.js/issues"
   }
 }
