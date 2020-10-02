@@ -121,8 +121,6 @@ async function redditFetch({ subreddit, type = `top` , sort = 'all', allowNSFW, 
         var pathArray = path.split( '/' );
         sub = pathArray[0]
     }
-
-    console.log(sub)
     
     /* The final target URL to fetch from */
     const targetURL = `https://reddit.com/r/${sub}/${type}.json?sort=${sort}&t=all&limit=100`;
