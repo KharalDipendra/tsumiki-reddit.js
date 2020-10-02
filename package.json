@@ -21,9 +21,9 @@
   "author": {
     "name": "Electrocute4u"
   },
-  "license": "MIT",
+  "license": "Apache-2.0 License",
   "dependencies": {
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.1"
   },
   "homepage": "https://github.com/Electrocute4u/tsumiki-reddit.js#readme",
   "bugs": {
