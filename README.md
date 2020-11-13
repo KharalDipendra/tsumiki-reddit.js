@@ -1,270 +1,144 @@
-# tsumiki-reddit.js
-A simple wrapper NPM package for fetching information from reddit posts. Excellent for Discord Bots! \
-Mainly recoded for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript. \
-Perfect for Pagination, since you can adjust how many results you get back with `amount` property! \
-It also supports discord friendly images for discord embeds that will guarantee a fetchable image URL. 
+# tsumiki-dbl-eu
+A rewritten and **highly improved npm package** for posting bot stats to discord-botlist.eu API endpoint. \
+Mainly rewritten for [Tsumiki](https://github.com/Electrocute4u/Tsumiki), a Discord Bot written in Javascript.
 
+**This npm package can be used by anybody and is not just made for** [Tsumiki](https://github.com/Electrocute4u/Tsumiki).
+This is a better and more improved version of [discord-botlist-api](https://www.npmjs.com/package/discord-botlist-api) npm package. \
+All credit where credit is due to the initial framework layed out by [lptp1](https://www.npmjs.com/~lptp1), which I reworked to some extent.
+
+I've also added a more *suitable documentation* for making sure even the newest developer can follow through.
+
+**Installation**:
+To install the npm package: do the following command in a terminal: \
+```npm i tsumiki-dbl-eu```
 
 ## Table of contents
 <details>
 <summary>"Click to expand"</summary>
  
 - [Dependencies](#dependencies)
-- [Options](#options)
-- [Hint and Tips](#hint-and-tips)
-- [Example on Pagination](#example-on-pagination)
-- [Usage and Example](#usage-and-example)
-- [Example for a Discord Bot](#example-for-a-discord-bot)
-- [Convert reddit date](#convert-reddit-date-to-a-normal-date-format)
-- [Example converting Epoch time with moment for a Discord Bot](#example-converting-epoch-time-with-moment-for-a-discord-bot)
-- [Example output for "post"](#example-output-for-post)
+- [Autopost Options](#autopost-options)
+- [Manual post Options](#manual-post-options)
+- [Supported Autopost Intervals](#supported-autopost-intervals)
+- [Example for a Discord bot with a client](#example-for-a-discord-bot-with-a-client)
+-- [Automatically post to the API](#automatically-post-to-the-api)
+-- [Manually post to the API](#nanually-post-to-the-api)
+-- [Get Votes](#get-votes)
+  - [The returned Vote object](#the-returned-vote-object)
 
 </details>
 
 
 ## Dependencies
-- `node-fetch` v2.6.1 ([LINK](https://www.npmjs.com/package/node-fetch))
+- `request` v^2.88.2 ([LINK](https://www.npmjs.com/package/request))
+- `tough-cookie` v^4.0.0 ([LINK](https://www.npmjs.com/package/tough-cookie))
+- `websocket` v^1.0.32 ([LINK](https://www.npmjs.com/package/websocket))
 
-
-## Options
+## Autopost Options
 
 | FIELD          | TYPE          | DESCRIPTION | DEFAULT |
 | :------------- |:-------------:|:-----------:|:-------:|
-| subreddit      | string | the reddit community name or reddit link (e.g https://reddit.com/r/discordjs) |
-| type           | string?      |   a valid reddit type option (hot, top, new, rising)| 'top'
-| sort           | string?      |   a valid reddit sorting option | 'all'
-| allowNSFW      | boolean?     |    whether or not the returned post can be marked as NSFW | false
-| allowModPost   | boolean?     |    whether or not the returned post can be distinguished as a mod post | false
-| allowCrossPost | boolean?  | whether or not the returned post can be a crosspost | false |
-| onlyImage | boolean?  |  whether or not the returned post is an image. | false |
-| allowAllDomains | boolean?  |  whether or not the returned post can be from another domain than "i.redd.it" | false |
-| amount | number?  | the amount of objects to fetch (max: 100) | 1 |
+| client      | `string` | The client that you initialize discord.js with. (e.g bot, client etc) |
+| postTime           | `string?`      |   A [supported interval](#supported-autopost-intervals) format (e.g 5min, 1h, 12hours etc) | 1 hour (60 min)
+| log           | `boolean?`      |   Whether or not to log when it posts to the API every x. | true
+| date      | `boolean?`     |    Whether or not to include the date in the console.log message if "log" is set to true. | false
 
-**Read more about the Reddit API documentation here:** \
-[Reddit API Documentation](https://www.reddit.com/dev/api/)
+## Manual post Options
+| FIELD          | TYPE          | DESCRIPTION |
+| :------------- |:-------------:|:-----------:|
+| serverCount      | `Object` | The client server cache size or guilds size, depending on version |
+| shardCount           | `Object?`      | The client shard cache size or shard size, depending on version |
+**on v12:** you can use `<client>.guilds.cache.size` and  `<client>.shards.cache.size` \
+**On v11 or below:** use `<client>.guilds.size` and  `<client>.shards.size`
 
-## Hint and Tips
-- If you just want supported images for a Discord Embed, set `onlyImage` to `true`. Its set to false by default.
-- If you want Pagination for Discord bots, make sure to use `post[x].data` to access the data property of each object. (x = index number)
-- Want to display all top posts in a subreddit? set `type` to `top` and `sort` to `all`.
-- `subreddit` accepts both the subreddit name or the subreddit url \
-**Examples:** https://reddit.com/r/discordjs or **r/discordjs** or even **reddit.com/discord.js** (which is just a simplified version) \
-It has an advanced filter to find the community name in most scenarios. 
+## Supported Autopost Intervals
+These are the supported auto-post intervals and their respective aliases to for "postTime" property.
+<details>
+<summary>"Click to expand"</summary>
+**5 Minutes:**
+`5` , `5min`, `5m`, `5minutes`, `05m`, `05min`, `05minutes`, `five`, `five minutes`
+**15 Minutes:**
+`15` , `15min`, `15m`, `15minutes`, `fifteen`, `fifteen minutes` 
+**30 Minutes:**
+`30` , `30min`, `30m`, `30minutes`m `thirty`, `thirty minutes`
+**60 Minutes (1 hour):**
+`1` , `1h`, `1 hour`, `01h`, `one hour`
+**2 Hours:**
+`2` , `2h`, `2 hours`, `02h`, `two hours`
+**3 Hours:**
+`3` , `3h`, `3 hours`, `03h`, `three hours`
+**4 Hours:**
+`4` , `4h`, `4 hours`, `04h`, `four hours`
+**5 Hours:**
+`5` , `5h`, `5 hours`, `05h`, `five hours`
+**10 Hours:**
+`10` , `10h`, `10 hours`, `10h`, `ten hours`
+**12 Hours:**
+`12` , `12h`, `12 hours`, `12h`, `halfday`, `half-day`, , `twelve hours`
+**24 Hours:**
+`24` , `24h`, `24 hours`, `24h`, `1day`, `1d`, `entire day`
 
-### All output types & domain types.
-If you want all output types (videos, GIFs, external URLs etc) and allow it from all types of domains. \
-Then set `onlyImage` to `false` and `allowAllDomains` to `true`.
+</details>
 
-## Usage and Example
+## Example for a Discord bot with a client
+### Automatically post to the API
 ```javascript
-const redditFetch = require('tsumiki-reddit.js');
-redditFetch({
+const Discord = require('discord.js')
+const client = new Discord.Client();
+const dbeu = require('tsumiki-dbl-eu')
+const dbapi = new dbeu.Client();
+const dbl_token = "Your-api-token-here"
+const botID = client.bot.user.id
 
-    subreddit: 'Pokemon',
-    type: `top`,
-    sort: 'all',
-    allowNSFW: false,
-    allowModPost: true,
-    allowCrossPost: true,
-    onlyImage: true,
-    allowAllDomains: false,
-    amount: 1,
+dbapi.on("ready", () => {
+    // Logs when the bot has sucessfully connected.
+    console.log("Sucessfully logged in to: Discord-botlist.eu API")
+    
+    // Automatically posts to the botlist API every x
+    dbapi.autoPost(client, "12 hours", true, true)
+})
 
-}).then(post => {
-
-/* Checking if the subreddit exists and isn't banned / unavailable . */
-if(post == null){
-   return console.log(`The subreddit name might have been spelled incorrectly or it was banned.`)
-}
-
-/* Checking if there are any fetchable posts */
-if(post == 0){
-   return console.log(`Could not find any posts to fetch from that subreddit! Try another one!`)
-}
-
-/* Console logs the object */
-console.log(post);
-
-});
+dbapi.login(dbl_token, botID)
 ```
-Returns a promise that resolves to a JSON object (`Promise<object>`).
-
-## All output types & domain types example
+### Manually post to the API
 ```javascript
-const redditFetch = require('tsumiki-reddit.js');
-redditFetch({
+const Discord = require('discord.js')
+const client = new Discord.Client();
+const dbeu = require('tsumiki-dbl-eu')
+const dbapi = new dbeu.Client();
+const dbl_token = "Your-api-token-here"
+const botID = client.bot.user.id
 
-    subreddit: 'Pokemon',
-    type: `top`,
-    sort: 'all',
-    allowNSFW: false,
-    allowModPost: true,
-    allowCrossPost: true,
-    onlyImage: false,
-    allowAllDomains: true,
-    amount: 1,
-
-}).then(post => {
-
-/* Checking if the subreddit exists and isn't banned / unavailable . */
-if(post == null){
-   return console.log(`The subreddit name might have been spelled incorrectly or it was banned.`)
-}
-
-/* Checking if there are any fetchable posts */
-if(post == 0){
-   return console.log(`Could not find any posts to fetch from that subreddit! Try another one!`)
-}
-
-/* Console logs the object */
-console.log(post);
-
-});
+dbapi.on("ready", () => {
+     // Logs when the bot has sucessfully connected.
+    console.log("Sucessfully logged in to: Discord-botlist.eu API")
+    
+    setInterval(() => {
+    // Hint: If you haven't sharded yet, don't include the shard property (or leave it as 0).
+    
+    // on v12 or above:
+    dbapi.postData(client.guilds.cache.size, client.shards.cache.size)
+    
+    // on v11 and below:
+    dbapi.postData(client.guilds.size, client.shards.size)
+    
+    console.log("Sucessfully posted to Discord-botlist.eu!")
+    }, 30000);
+})
+dbapi.login(dbl_token, botID)
 ```
-Returns a promise that resolves to a JSON object (`Promise<object>`).
-
-## Example on Pagination / Return more then 1 object
+## Get votes
 ```javascript
-const redditFetch = require('tsumiki-reddit.js');
-redditFetch({
-
-    subreddit: 'Pokemon',
-    type: `top`,
-    sort: 'all',
-    allowNSFW: false,
-    allowModPost: true,
-    allowCrossPost: true,
-    onlyImage: true,
-    allowAllDomains: false,
-    amount: 3,
-
-}).then(post => {
-    console.log(post[0].data);
-    console.log(post[1].data);
-    console.log(post[2].data);
-});
+dbapi.on("vote", vote => {
+    console.log(vote)
+})
 ```
-Returns a promise that resolves to a JSON object (`Promise<object>`).
-
-### Return a image/GIF that is supported by Discord embeds
-Be sure to set `onlyImage` to `true` and `allowAllDomains` to `false` for a 100% chance of recieving a discord supported image/GIF format. \
-If you don't do this, you will ocassionally get GIFs from Imgur that is of GIFV format, or get External URLs to images that isn't fetchable.
-
-
-## Example for a Discord bot
+### The returned Vote object
 ```javascript
-const redditFetch = require('tsumiki-reddit.js');
-redditFetch({
-
-    /* Insert your options here, you can find all options on the NPM or Github repo */
-    subreddit: 'Pokemon', // Subreddit name.
-    type: `top`, // Valid reddit type sorting option can be used here 
-    sort: 'all', // Valid reddit sorting option can be used here 
-    allowNSFW: true, // If you're pretty ecchi, turn this on you degenerate uwu 
-    allowModPost: true, // Whether or not the post can be a mod post 
-    allowCrossPost: true, // Whether or not the post can be a crosspost 
-    onlyImage: true, // whether or not to only return posts that is marked as "images" by API.
-    allowAllDomains: false, // By default set to false and will only fetch from "i.redd.it" domain (best for images)
-    amount: 1, // The amount of posts to return. Max is 100 and default is 1 
-
-}).then(post => {
-    
-    /* post will be null if an option is invalid. */ 
-    /* This can be because you entered a subreddit that wasn't correct/closed. */
-    /* Or you messed up something in the options, check NPM page or Github for help. */
-    /* This is where you can catch before the promise, if the subreddit entred is incorrect or closed */
-    if(post == null) {
-    return message.channel.send(`Check your options!\nAnd check if you spelled the subreddit correctly.`) // replace <message> with what you called the message property
-    }
-    
-    
-    /* Post will return "0" when the subreddit you searched for don't have a valid post to display. */
-    /* This can be caused by having "allowNSFW" on false and searching in a subreddit which only has NSFW images... */
-    /* It can also be caused by a subreddit only containing videos/external image links and you have "allowAllDomains" set to false. */
-    /* This can easily be overwritten by setting "onlyImage" to true. */
-
-    if(post == 0) {
-    return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`) // replace <message> with what you called the message property
-    }
-    
-    
-    /* Defines a embed to send in chat */
-    let embed = new Discord.MessageEmbed() /* for discord.js V.11 or below, use let embed = new Discord.RichEmbed() */
-     .setTitle(post.title)
-     .setURL(`https://www.reddit.com${post.permalink}`)
-     .setColor("RANDOM")
-     .setDesciption(`Here is a random picture from **${post.subreddit_name_prefixed}**`)
-     .setImage(`${post.url}`)
-     
-     /* Send the embed in chat */
-     return message.channel.send(embed) // replace <message> with what you called the message property
-     
-     /* Console log the JSON object */
-     console.log(post)
-     
-});
+botID: "some-bot-id",
+user: {
+    "name": "VOTED_USER_NAME",
+    "id": "VOTED_USER_ID",
+    "else": "OTHER_STUFF"
+}
 ```
-Returns a promise that resolves to a JSON object (`Promise<object>`).
-
-
-## Convert reddit date to a normal date format
-`<post>.created_utc` is displayed in Epoch time. You want to use `<post>.created_utc` over `<post>.created`. \
-While you can still use `<post>.created`, it is preferred to use the one converted to UTC to get the correct time. \
-I highly reccomend using [moment](https://www.npmjs.com/package/moment) NPM package to convert it. \
-Replace `<post>` with whatever you named the output on `.then()` function.
-
-## Example converting Epoch time with moment for a Discord Bot
-```javascript 
-const moment  = require("moment");
-const redditFetch = require('tsumiki-reddit.js');
-redditFetch({
-    
-    /* Insert your options here, you can find all options on the NPM or Github repo */
-    subreddit: 'Pokemon',
-    type: `top`,
-    sort: 'all',
-    allowNSFW: false,
-    allowModPost: true,
-    allowCrossPost: true,
-    onlyImage: true,
-    allowAllDomains: false,
-    amount: 1,
-
-}).then(post => {
-    
-    // Returns null if subreddit is banned / unavailable
-    if(post == null) {
-    return message.channel.send(`Check your options!\nAnd check if you spelled the subreddit correctly.`) // replace <message> with what you called the message property
-    }
-    
-    // Returns 0 if there were no posts found, but the subreddit was not banned / unavailable
-    if(post == 0) {
-    return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`) // replace <message> with what you called the message property
-    }
-
-// Define the Date variable to use later on
-var Date = moment.unix(post.created_utc).format('DD.MM.YYYY')
-
-/* Defines a embed to send in chat */
-    let embed = new Discord.MessageEmbed() // for discord.js V.11 or below, use let embed = new Discord.RichEmbed()
-     .setTitle(post.title)
-     .setURL(`https://www.reddit.com${post.permalink}`)
-     .setColor("RANDOM")
-     .setDesciption(`Here is a random picture from **${post.subreddit_name_prefixed}**
-     This was created on: ${Date}`)
-     .setImage(`${post.url}`)
-     
-     /* Send the embed in chat */
-     return message.channel.send(embed) // replace <message> with what you called the message property
-     
-});
-```
-Returns a promise that resolves to a JSON object (`Promise<object>`).
-
-## Example JSON for the "post" object
-**Example 1:** [pastebin](https://pastebin.com/zHGku0BK) - This is a example output for all possible posts, if `onlyImage` is set to `true`. \
-This does not include the property `post_hint` property, which means its automaticly sorted out if `onlyImage` is set to `false` \
-I personally just want images, so I usually have it set to false, since I want to be certain I get images that supports Discord embeds.
-
-**Example 2:** [pastebin](https://pastebin.com/NYy7kbmW) - This is a example output if `onlyImage` is set to `true`. \
-This is the prefered way, since it only fetches posts with images that is part of `i.redd.it` domain and is fetchable for Discord Embeds. \

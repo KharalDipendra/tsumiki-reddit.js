@@ -1,32 +1,26 @@
 {
-  "name": "tsumiki-reddit.js",
-  "version": "2.1.0",
-  "description": "A simple wrapper for fetching information from reddit posts. Execelent for Discord bots.",
-  "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [
-    "node-fetch",
-    "node",
-    "reddit",
-    "json",
-    "api",
-    "request",
-    "response",
-    "discord.js",
-    "js",
-    "tsumiki-reddit.js"
-  ],
-  "author": {
-    "name": "Electrocute4u"
-  },
-  "license": "Apache-2.0 License",
   "dependencies": {
-    "node-fetch": "^2.6.1"
+    "request": "^2.88.2",
+    "tough-cookie": "^4.0.0",
+    "websocket": "^1.0.32"
   },
-  "homepage": "https://github.com/Electrocute4u/tsumiki-reddit.js#readme",
-  "bugs": {
-    "url": "https://github.com/Electrocute4u/tsumiki-reddit.js/issues"
-  }
+  "deprecated": false,
+  "description": "Tsumiki's Discord-botlist.eu NPM package",
+  "keywords": [
+    "discord",
+    "discord-botlist",
+    "botlist",
+    "discordbotlist",
+    "tsumiki",
+    "botlist-eu",
+    "dbl-eu",
+    "dbl-eu-api"
+  ],
+  "license": "Apache License 2.0",
+  "main": "index.js",
+  "name": "tsumiki-dbl-eu",
+  "scripts": {
+    "test": "echo No test script"
+  },
+  "version": "1.0.0"
 }
