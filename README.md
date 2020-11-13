@@ -267,4 +267,4 @@ This does not include the property `post_hint` property, which means its automat
 I personally just want images, so I usually have it set to false, since I want to be certain I get images that supports Discord embeds.
 
 **Example 2:** [pastebin](https://pastebin.com/NYy7kbmW) - This is a example output if `onlyImage` is set to `true`. \
-This is the prefered way, since it only fetches posts with images that is part of `i.redd.it` domain and is fetchable for Discord Embeds. \
+This is the prefered way, since it only fetches posts with images that is part of `i.redd.it` domain and is fetchable for Discord Embeds.
