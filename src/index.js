@@ -131,10 +131,22 @@ async function redditFetch({ subreddit, type = `top` , sort = 'all', allowNSFW, 
     .then(body => {
 		
 		let post
-        /* If not found */
+        /* If body was not found return this */
         if (!body.data){
         post = null;
         return resolve(post);
+        }
+
+        // If reason is found and it equals private return this
+        if (body.reason && body.reason.toLowerCase() === "private"){
+           post = "private";
+           return resolve(post);
+        }
+
+        // If body.children is empty or not present return this
+        if (!body.data.children || body.data.children <= 0){
+           post = "invalid";
+           return resolve(post);
         }
 
         /* Array of found submissions */

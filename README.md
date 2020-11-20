@@ -50,6 +50,7 @@ It also supports discord friendly images for discord embeds that will guarantee 
 - `subreddit` accepts both the subreddit name or the subreddit url \
 **Examples:** https://reddit.com/r/discordjs or **r/discordjs** or even **reddit.com/discord.js** (which is just a simplified version) \
 It has an advanced filter to find the community name in most scenarios. 
+- `post` has 4 different properties: `null` (subreddit unavailable), `invalid` (Subreddit does not exist), `private` (Subreddit is private), `0`(No posts were found in the subreddit)
 
 ### All output types & domain types.
 If you want all output types (videos, GIFs, external URLs etc) and allow it from all types of domains. \
@@ -106,14 +107,28 @@ redditFetch({
 
 }).then(post => {
 
-/* Checking if the subreddit exists and isn't banned / unavailable . */
-if(post == null){
-   return console.log(`The subreddit name might have been spelled incorrectly or it was banned.`)
+// Returns null if the body is missing (Server unreachable)
+if(post == null) {
+    return message.channel.send(`Seems like the Reddit server is unreachable right now.\nTry again later!`)
+    // replace <message> with what you called the message property
 }
 
-/* Checking if there are any fetchable posts */
-if(post == 0){
-   return console.log(`Could not find any posts to fetch from that subreddit! Try another one!`)
+// Returns "private" (in lowercase) if the subreddit mentioned is "private".
+if(post == "private") {
+    return message.channel.send(`The subreddit mentioned is a private subreddit!\nPlease use a public subreddit that I can access!`)
+    // replace <message> with what you called the message property
+}
+
+// Returns "invalid" (in lowercase) if the subreddit mentioned is not a name of any existing subreddit (even if its private).
+if(post == "invalid") {
+    return message.channel.send(`Check your subreddit name input again. Because no subreddits exists with your input!`)
+    // replace <message> with what you called the message property
+}
+
+// Returns 0 if there were no posts found in the subreddit (but it exists and isn't private)
+if(post == 0) {
+    return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`)
+    // replace <message> with what you called the message property
 }
 
 /* Console logs the object */
@@ -143,6 +158,7 @@ redditFetch({
     console.log(post[1].data);
     console.log(post[2].data);
 });
+.catch() // ... Do something with the catch()
 ```
 Returns a promise that resolves to a JSON object (`Promise<object>`).
 
@@ -154,6 +170,7 @@ If you don't do this, you will ocassionally get GIFs from Imgur that is of GIFV 
 ## Example for a Discord bot
 ```javascript
 const redditFetch = require('tsumiki-reddit.js');
+
 redditFetch({
 
     /* Insert your options here, you can find all options on the NPM or Github repo */
@@ -177,16 +194,29 @@ redditFetch({
     return message.channel.send(`Check your options!\nAnd check if you spelled the subreddit correctly.`) // replace <message> with what you called the message property
     }
     
-    
-    /* Post will return "0" when the subreddit you searched for don't have a valid post to display. */
-    /* This can be caused by having "allowNSFW" on false and searching in a subreddit which only has NSFW images... */
-    /* It can also be caused by a subreddit only containing videos/external image links and you have "allowAllDomains" set to false. */
-    /* This can easily be overwritten by setting "onlyImage" to true. */
-
-    if(post == 0) {
-    return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`) // replace <message> with what you called the message property
+    // Returns null if the body is missing (Server unreachable)
+    if(post == null) {
+        return message.channel.send(`Seems like the Reddit server is unreachable right now.\nTry again later!`)
+        // replace <message> with what you called the message property
     }
-    
+
+    // Returns "private" (in lowercase) if the subreddit mentioned is "private".
+    if(post == "private") {
+        return message.channel.send(`The subreddit mentioned is a private subreddit!\nPlease use a public subreddit that I can access!`)
+        // replace <message> with what you called the message property
+    }
+
+    // Returns "invalid" (in lowercase) if the subreddit mentioned is not a name of any existing subreddit (even if its private).
+    if(post == "invalid") {
+        return message.channel.send(`Check your subreddit name input again. Because no subreddits exists with your input!`)
+        // replace <message> with what you called the message property
+    }
+
+    // Returns 0 if there were no posts found in the subreddit (but it exists and isn't private)
+    if(post == 0) {
+        return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`)
+        // replace <message> with what you called the message property
+    }
     
     /* Defines a embed to send in chat */
     let embed = new Discord.MessageEmbed() /* for discord.js V.11 or below, use let embed = new Discord.RichEmbed() */
@@ -203,6 +233,7 @@ redditFetch({
      console.log(post)
      
 });
+.catch() // Do something with the catch (e.g console.log() the error)
 ```
 Returns a promise that resolves to a JSON object (`Promise<object>`).
 
@@ -232,14 +263,28 @@ redditFetch({
 
 }).then(post => {
     
-    // Returns null if subreddit is banned / unavailable
+    // Returns null if the body is missing (Server unreachable)
     if(post == null) {
-    return message.channel.send(`Check your options!\nAnd check if you spelled the subreddit correctly.`) // replace <message> with what you called the message property
+        return message.channel.send(`Seems like the Reddit server is unreachable right now.\nTry again later!`)
+        // replace <message> with what you called the message property
     }
-    
-    // Returns 0 if there were no posts found, but the subreddit was not banned / unavailable
+
+    // Returns "private" (in lowercase) if the subreddit mentioned is "private".
+    if(post == "private") {
+        return message.channel.send(`The subreddit mentioned is a private subreddit!\nPlease use a public subreddit that I can access!`)
+        // replace <message> with what you called the message property
+    }
+
+    // Returns "invalid" (in lowercase) if the subreddit mentioned is not a name of any existing subreddit (even if its private).
+    if(post == "invalid") {
+        return message.channel.send(`Check your subreddit name input again. Because no subreddits exists with your input!`)
+        // replace <message> with what you called the message property
+    }
+
+    // Returns 0 if there were no posts found in the subreddit (but it exists and isn't private)
     if(post == 0) {
-    return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`) // replace <message> with what you called the message property
+        return message.channel.send(`There were no posts to be found in that subreddit!\nTry another one!`)
+        // replace <message> with what you called the message property
     }
 
 // Define the Date variable to use later on
@@ -258,6 +303,7 @@ var Date = moment.unix(post.created_utc).format('DD.MM.YYYY')
      return message.channel.send(embed) // replace <message> with what you called the message property
      
 });
+.catch() // Do something with the catch (e.g console.log() the error)
 ```
 Returns a promise that resolves to a JSON object (`Promise<object>`).
 
